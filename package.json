@@ -1,0 +1,22 @@
+{
+  "name": "wmataapiapi",
+  "version": "0.0.0",
+  "description": "a wmata api api",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "wmata",
+    "api",
+    "metro",
+    "transit"
+  ],
+  "author": "Tom MacWright <tom@macwright.org>",
+  "license": "BSD",
+  "dependencies": {
+    "express": "~3.3.1",
+    "cors": "~1.0.1",
+    "request": "~2.21.0"
+  }
+}
