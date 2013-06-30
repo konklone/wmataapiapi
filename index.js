@@ -48,7 +48,6 @@ function minutely() {
         }, function(err, resp, body) {
             if (err) return;
             var groups = {};
-            console.log(body);
             body.Trains.forEach(function(t) {
                 if (!groups[t.LocationCode]) groups[t.LocationCode] = [];
                 t.retrieved = +new Date();
