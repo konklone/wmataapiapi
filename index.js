@@ -5,7 +5,7 @@ var express = require('express'),
     wmataClient = require('wmata-client'),
     app = express(),
     config = (process.env.WMATA_KEY) ? {
-        keys: [process.ev.WMATA_KEY]
+        keys: [process.env.WMATA_KEY]
     } : JSON.parse(fs.readFileSync('config.json')),
     predictions = {},
     stations = wmataClient.rail.stations.geojson,
