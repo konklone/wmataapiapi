@@ -2,33 +2,49 @@ var express = require('express'),
     fs = require('fs'),
     request = require('request'),
     cors = require('cors'),
-    wmataClient = require('wmata-client'),
-    app = express(),
+    parsePositions = require('./lib/parsepositions'),
+    wmataClient = require('wmata-client');
+
+var app = express(),
     config = (process.env.WMATA_KEY) ? {
         keys: [process.env.WMATA_KEY]
-    } : JSON.parse(fs.readFileSync('config.json')),
-    predictions = {},
+    } : JSON.parse(fs.readFileSync('config.json'));
+
+// the mashery-created 'io docs'
+// http://developer.wmata.com/io-docs
+var predictions = {},
+    current = {},
     stations = wmataClient.rail.stations.geojson,
     stations_length = stations.features.length,
+    // the station prediction api
     stationPrediction = 'http://api.wmata.com/StationPrediction.svc/json/GetPrediction/{codes}?api_key={key}',
     station_codes = stations.features.map(function(s) {
         return s.properties.code;
     }),
+    // so you can't request a lot of codes from the API at the same time.
+    // this is a fancy-dancy way to chop up the long list of codes into
+    // 50-code segments
     code_chunks = (function() {
         var o = [], size = 50;
         while (station_codes.length) o.push(station_codes.splice(0, size));
         return o;
-    })();
+    })(),
+    busPosition = 'http://api.wmata.com/Bus.svc/BusPositions?api_key={key}';
 
 app.get('/', cors(), function(req, res) { res.sendfile('index.html'); });
 app.get('/rail/station/', cors(), function(req, res) { res.send(stations); });
 app.get('/rail/station/:code', cors(), getCode);
 app.get('/rail/station/:code/prediction', cors(), getPrediction);
+app.get('/bus/position/', cors(), getBusPosition);
 
 function getCode(req, res) {
     res.send(stations.features.filter(function(s) {
         return s.properties.code == req.params.code;
     })[0] || { error: 'Station not found' });
+}
+
+function getBusPosition(req, res) {
+    return res.send(current.busPositions || []);
 }
 
 function getPrediction(req, res) {
@@ -55,6 +71,14 @@ function minutely() {
             });
             for (var code in groups) predictions[code] = groups[code];
         });
+    });
+
+    request({
+        uri: busPosition
+            .replace('{key}', config.keys[0])
+    }, function(err, resp, body) {
+        if (err) return;
+        current.busPositions = parsePositions(body);
     });
 }
 

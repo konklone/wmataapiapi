@@ -1,10 +1,43 @@
-<h1>wmataapiapi</h1>
 
-<img alt='recursive!' src='http://media3.giphy.com/media/dxZephhC0Zpv2/original.gif' />
-
-<pre>
-/rail/station/
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>wmataapiapi</title>
+        <meta http-equiv='content-type' content='text/html; charset=utf-8' />
+        <meta name='viewport' content='initial-scale=1.0 maximum-scale=1.0'>
+        <style>
+        h1 {
+            font-size:70px;
+        }
+        body {
+            color:#344;
+            font:normal 18px/30px sans-serif;
+            max-width:500px;
+            margin:0 auto;
+        }
+        pre {
+            background:#eee;
+            padding:5px;
+        }
+        </style>
+    </head>
+    <body>
+        <h1>wmataapiapi</h1>
+        <p>An API on an API on an API, designed to fix artificial
+        scarcity of transit data in washington, dc.</p>
+        <p>This api is free to use
+        in any way you know how, but if you want to use it a <em>lot</em>
+        or rely on it being up 24/7, you should <a href='https://github.com/tmcw/wmataapiapi'>host it yourself, like a champ.</a></p>
+<pre>// list all rail stations
+<a href='/rail/station/'>/rail/station</a>
+// a specific rail station predictions
 /rail/station/:code
+// all bus positions
+<a href='/bus/position/'>/bus/position</a>
 /rail/station/:code/prediction
 /rail/station/all/prediction
 </pre>
+<p>don't get it? <a href='http://bl.ocks.org/tmcw/raw/5897637/'>here's one thing you could make with it</a>.</p>
+    </body>
+</html>
