@@ -6,6 +6,11 @@
         <title>wmataapiapi</title>
         <meta http-equiv='content-type' content='text/html; charset=utf-8' />
         <meta name='viewport' content='initial-scale=1.0 maximum-scale=1.0'>
+        <script src='//api.tiles.mapbox.com/mapbox.js/v1.2.0/mapbox.js'></script>
+        <link href='//api.tiles.mapbox.com/mapbox.js/v1.2.0/mapbox.css' rel='stylesheet' />
+        <!--[if lte IE 8]>
+          <link href='//api.tiles.mapbox.com/mapbox.js/v1.2.0/mapbox.ie.css' rel='stylesheet' >
+        <![endif]-->
         <style>
         h1 {
             font-size:70px;
@@ -19,6 +24,9 @@
         pre {
             background:#eee;
             padding:5px;
+        }
+        #map {
+            height:500px;
         }
         </style>
     </head>
@@ -35,9 +43,26 @@
 /rail/station/:code
 // all bus positions
 <a href='/bus/position/'>/bus/position</a>
+<a href='/bus/position.geojson'>/bus/position.geojson</a>
 /rail/station/:code/prediction
 /rail/station/all/prediction
 </pre>
 <p>don't get it? <a href='http://bl.ocks.org/tmcw/raw/5897637/'>here's one thing you could make with it</a>.</p>
+<div id='map'></div>
+<script>
+var map = L.mapbox.map('map', 'tmcw.map-zcecftbw');
+
+var markerLayer = L.mapbox.markerLayer()
+    .loadURL('/bus/position.geojson')
+    .on('ready', function() {
+        if (this.getBounds()) map.fitBounds(this.getBounds());
+    })
+    .addTo(map);
+
+setInterval(function() {
+    markerLayer.clearLayers();
+    markerLayer.loadURL('/bus/position.geojson');
+}, 1000 * 60);
+</script>
     </body>
 </html>

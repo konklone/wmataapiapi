@@ -36,6 +36,7 @@ app.get('/rail/station/', cors(), function(req, res) { res.send(stations); });
 app.get('/rail/station/:code', cors(), getCode);
 app.get('/rail/station/:code/prediction', cors(), getPrediction);
 app.get('/bus/position/', cors(), getBusPosition);
+app.get('/bus/position.geojson', cors(), getBusPosition);
 
 function getCode(req, res) {
     res.send(stations.features.filter(function(s) {
@@ -44,7 +45,23 @@ function getCode(req, res) {
 }
 
 function getBusPosition(req, res) {
-    return res.send(current.busPositions || []);
+    return res.send(current.busPositions ? {
+        type: 'FeatureCollection',
+        features: current.busPositions.map(function(p) {
+            var props = p;
+            props.title = p.vehicleid + ', ' + p.routeid;
+            props['marker-symbol'] = 'bus';
+            props['marker-color'] = '#15a';
+            return {
+                type: 'Feature',
+                properties: p,
+                geometry: {
+                    type: 'Point',
+                    coordinates: [p.lon, p.lat]
+                }
+            };
+        })
+    } : {type:'FeatureCollection',features:[]});
 }
 
 function getPrediction(req, res) {
