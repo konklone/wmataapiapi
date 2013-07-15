@@ -1,17 +1,52 @@
-# [wmata apiapi](http://secret-wildwood-1777.herokuapp.com/)
+# wmata apiapi
 
-http://secret-wildwood-1777.herokuapp.com/
+Testing instance: http://secret-wildwood-1777.herokuapp.com/
 
 ```
 /rail/station/
 /rail/station/:code
 /rail/station/:code/prediction
 /rail/station/all/prediction
+/bus/position/
+/bus/position.geojson
 ```
 
 It's an API on an API on an API.
 
-Here's how it works:
+## Development
+
+    git clone git@github.com:tmcw/wmataapiapi.git
+    npm install
+
+### API Key
+
+[Register for an API key at developer.wmata.com](http://developer.wmata.com/).
+
+The application receives API keys either through environment variables or a
+`config.json` file. A basic `config.json` looks like
+
+```js
+{
+    "keys": [
+        "YOUR_API_KEY"
+    ]
+}
+```
+
+Multiple keys can be added for striping requests.
+
+### Running
+
+    node index.js
+
+To run on [Heroku](https://www.heroku.com/), create a heroku server, and push
+wmataapiapi to it. Then add your key like
+
+    heroku config:add WMATA_KEY=YOUR_KEY_VALUE
+
+This way you don't have to commit your key publicly.
+
+## Context
 
 The DC government writes/contracts/maintains a system that does stuff like
 bus and rail predictions, simple stuff like finding local stops, and semi-realtime
