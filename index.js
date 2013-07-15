@@ -32,14 +32,14 @@ var predictions = {},
     busPosition = 'http://api.wmata.com/Bus.svc/BusPositions?api_key={key}';
 
 app.get('/', cors(), function(req, res) { res.sendfile('index.html'); });
-app.get('/rail/station/', cors(), function(req, res) { res.send(stations); });
+app.get('/rail/station/', cors(), function(req, res) { res.jsonp(stations); });
 app.get('/rail/station/:code', cors(), getCode);
 app.get('/rail/station/:code/prediction', cors(), getPrediction);
 app.get('/bus/position/', cors(), getBusPosition);
 app.get('/bus/position.geojson', cors(), getBusPosition);
 
 function getCode(req, res) {
-    res.send(stations.features.filter(function(s) {
+    res.jsonp(stations.features.filter(function(s) {
         return s.properties.code == req.params.code;
     })[0] || { error: 'Station not found' });
 }
@@ -66,7 +66,7 @@ function getBusPosition(req, res) {
 
 function getPrediction(req, res) {
     if (req.params.code === 'all') return res.send(predictions);
-    return res.send(predictions[req.params.code] || { error: 'Station and predictions not found' });
+    return res.jsonp(predictions[req.params.code] || { error: 'Station and predictions not found' });
 }
 
 function delay(i) { return (i / stations_length) * 60 * 1000; }

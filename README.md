@@ -11,6 +11,10 @@ Testing instance: http://secret-wildwood-1777.herokuapp.com/
 /bus/position.geojson
 ```
 
+Each endpoint supports both [CORS](http://en.wikipedia.org/wiki/Cross-origin_resource_sharing)
+and [JSONP](http://en.wikipedia.org/wiki/JSONP), so the server can be used by
+purely client-side applications.
+
 It's an API on an API on an API.
 
 ## Development
