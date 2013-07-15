@@ -18,7 +18,7 @@
         body {
             color:#344;
             font:normal 18px/30px sans-serif;
-            max-width:500px;
+            max-width:700px;
             margin:0 auto;
         }
         pre {
@@ -26,11 +26,12 @@
             padding:5px;
         }
         #map {
-            height:500px;
+            height:700px;
         }
         </style>
     </head>
     <body>
+        <p><a href='https://github.com/tmcw/wmataapiapi'>tmcw/wmataapiapi is an open source project that you can use and help</a></p>
         <h1>wmataapiapi</h1>
         <p>An API on an API on an API, designed to fix artificial
         scarcity of transit data in washington, dc.</p>
@@ -55,7 +56,7 @@ var map = L.mapbox.map('map', 'tmcw.map-zcecftbw');
 var markerLayer = L.mapbox.markerLayer()
     .loadURL('/bus/position.geojson')
     .on('ready', function() {
-        if (this.getBounds()) map.fitBounds(this.getBounds());
+        if (this._geojson.features.length && this.getBounds()) map.fitBounds(this.getBounds());
     })
     .addTo(map);
 
