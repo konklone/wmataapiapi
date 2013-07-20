@@ -16,9 +16,9 @@ var API_URLS = require('./data/api.json');
 var app = express(),
     config = (process.env.WMATA_KEY) ? {
         keys: [process.env.WMATA_KEY],
-        s3key: [process.env.S3_KEY],
-        s3secret: [process.env.S3_SECRET],
-        s3bucket: [process.env.S3_BUCKET]
+        s3key: process.env.S3_KEY,
+        s3secret: process.env.S3_SECRET,
+        s3bucket: process.env.S3_BUCKET
     } : JSON.parse(fs.readFileSync('config.json'));
 
 var history = USE_HISTORY ? require('./lib/history')(config) :
