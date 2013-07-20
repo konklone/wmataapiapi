@@ -1,0 +1,4 @@
+{
+    "stationPrediction": "http://api.wmata.com/StationPrediction.svc/json/GetPrediction/{codes}?api_key={key}",
+    "busPosition": "http://api.wmata.com/Bus.svc/BusPositions?api_key={key}"
+}
