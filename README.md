@@ -8,6 +8,7 @@ Testing instance: http://secret-wildwood-1777.herokuapp.com/
 /rail/station/:code/prediction
 /rail/station/all/prediction
 /bus/position/
+/bus/position/history/
 /bus/position.geojson
 ```
 
@@ -37,7 +38,10 @@ The application receives API keys either through environment variables or a
 }
 ```
 
-Multiple keys can be added for striping requests.
+The **historical component** of the API requires [Amazon S3](http://aws.amazon.com/s3/),
+but you don't need to use it. To use it, add
+`s3key`, `s3secret`, and `s3bucket` to your `config.json` file. To not use it,
+don't, and the history API will be noop.
 
 ### Running
 

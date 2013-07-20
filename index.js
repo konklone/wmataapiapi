@@ -19,9 +19,9 @@ var app = express(),
         s3key: process.env.S3_KEY,
         s3secret: process.env.S3_SECRET,
         s3bucket: process.env.S3_BUCKET
-    } : JSON.parse(fs.readFileSync('config.json'));
+    } : require('./config.json');
 
-var history = USE_HISTORY ? require('./lib/history')(config) :
+var history = (config.s3key && USE_HISTORY) ? require('./lib/history')(config) :
     require('./lib/historynoop')(config);
 
 // the mashery-created 'io docs'
@@ -68,7 +68,7 @@ function getBusHistoryList(req, res) {
     } else {
         console.log('wmataapiapi: [web] list cache miss');
         history.list('v0/bus/positions/', function(err, list) {
-            if (err) return callback(err);
+            if (err) return res.jsonp(err);
             console.log('wmataapiapi: [web] list cache save');
             res.jsonp(dcache.set('v0/bus/positions/', list.Contents.map(function(c) {
                 return {
