@@ -5,7 +5,7 @@ var express = require('express'),
     cronJob = require('cron').CronJob,
     wmataClient = require('wmata-client');
 
-var USE_HISTORY = true;
+var USE_HISTORY = false;
 
 var parsePositions = require('./lib/parsepositions'),
     dcache = require('./lib/dumbcache'),
